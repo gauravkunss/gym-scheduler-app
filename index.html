@@ -2,14 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Scheduler App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Gym Scheduler</title>
+    
+    <!-- App Icon - Calendar with Dumbbell -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='15' width='80' height='70' rx='8' fill='%232563eb' stroke='%231e40af' stroke-width='3'/%3E%3Crect x='15' y='10' width='70' height='15' rx='5' fill='%231e293b'/%3E%3Crect x='20' y='30' width='60' height='50' rx='5' fill='%23f1f5f9'/%3E%3Crect x='23' y='5' width='8' height='15' rx='4' fill='%232563eb'/%3E%3Crect x='69' y='5' width='8' height='15' rx='4' fill='%232563eb'/%3E%3Cg transform='translate(50,55)'%3E%3Crect x='-15' y='-3' width='30' height='6' rx='1' fill='%231e293b'/%3E%3Crect x='-20' y='-8' width='5' height='16' rx='2' fill='%231e293b'/%3E%3Crect x='15' y='-8' width='5' height='16' rx='2' fill='%231e293b'/%3E%3Ccircle cx='-18' cy='-10' r='3' fill='%231e293b'/%3E%3Ccircle cx='-18' cy='10' r='3' fill='%231e293b'/%3E%3Ccircle cx='18' cy='-10' r='3' fill='%231e293b'/%3E%3Ccircle cx='18' cy='10' r='3' fill='%231e293b'/%3E%3C/g%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='15' width='80' height='70' rx='8' fill='%232563eb' stroke='%231e40af' stroke-width='3'/%3E%3Crect x='15' y='10' width='70' height='15' rx='5' fill='%231e293b'/%3E%3Crect x='20' y='30' width='60' height='50' rx='5' fill='%23f1f5f9'/%3E%3Crect x='23' y='5' width='8' height='15' rx='4' fill='%232563eb'/%3E%3Crect x='69' y='5' width='8' height='15' rx='4' fill='%232563eb'/%3E%3Cg transform='translate(50,55)'%3E%3Crect x='-15' y='-3' width='30' height='6' rx='1' fill='%231e293b'/%3E%3Crect x='-20' y='-8' width='5' height='16' rx='2' fill='%231e293b'/%3E%3Crect x='15' y='-8' width='5' height='16' rx='2' fill='%231e293b'/%3E%3Ccircle cx='-18' cy='-10' r='3' fill='%231e293b'/%3E%3Ccircle cx='-18' cy='10' r='3' fill='%231e293b'/%3E%3Ccircle cx='18' cy='-10' r='3' fill='%231e293b'/%3E%3Ccircle cx='18' cy='10' r='3' fill='%231e293b'/%3E%3C/g%3E%3C/svg%3E" />
+    
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background-color: #000000;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+        
+        #root {
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        .safe-top {
+            padding-top: max(60px, calc(env(safe-area-inset-top) + 40px));
+        }
+        
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Prevent text selection on buttons */
+        button {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Input focus styles */
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px;
+            ring-color: #3b82f6;
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.2s ease;
+        }
+        
+        /* Loading animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -18,14 +107,67 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
         
-        const Dumbbell = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg>;
-        const Plus = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>;
-        const Trash2 = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18"/><path d="m19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>;
-        const Calendar = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>;
-        const CalendarPlus = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M10 16h4"/><path d="M12 14v4"/></svg>;
-        const CheckCircle = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
-        const XCircle = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>;
+        // SVG Icons - All white for dark theme
+        const Dumbbell = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14.4 14.4 9.6 9.6"/>
+                <path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/>
+                <path d="m21.5 21.5-1.4-1.4"/>
+                <path d="M3.9 3.9 2.5 2.5"/>
+                <path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/>
+            </svg>
+        );
+        
+        const Plus = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5v14"/>
+            </svg>
+        );
+        
+        const Trash2 = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 6h18"/>
+                <path d="m19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                <line x1="10" x2="10" y1="11" y2="17"/>
+                <line x1="14" x2="14" y1="11" y2="17"/>
+            </svg>
+        );
+        
+        const Calendar = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                <line x1="16" x2="16" y1="2" y2="6"/>
+                <line x1="8" x2="8" y1="2" y2="6"/>
+                <line x1="3" x2="21" y1="10" y2="10"/>
+            </svg>
+        );
+        
+        const Download = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" x2="12" y1="15" y2="3"/>
+            </svg>
+        );
+        
+        const CheckCircle = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+        );
+        
+        const XCircle = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m15 9-6 6"/>
+                <path d="m9 9 6 6"/>
+            </svg>
+        );
 
+        // Exercise Database
         const bodyPartExercises = {
           'Chest': ['Barbell Flat Bench Press', 'Barbell Incline Bench Press', 'Barbell Decline Bench Press', 'Dumbbell Flat Bench Press', 'Dumbbell Incline Bench Press', 'Dumbbell Decline Bench Press', 'Machine Chest Press', 'Machine Incline Chest Press', 'Machine Decline Chest Press', 'Cable Chest Press', 'Cable Incline Chest Press', 'Cable Decline Chest Press', 'Dumbbell Flat Flyes', 'Dumbbell Incline Flyes', 'Dumbbell Decline Flyes', 'Cable Crossover High to Low', 'Cable Crossover Low to High', 'Cable Crossover Middle', 'Pec Deck Machine', 'Chest Dips', 'Push-Ups', 'Incline Push-Ups', 'Decline Push-Ups', 'Diamond Push-Ups', 'Wide Grip Push-Ups', 'Barbell Floor Press', 'Dumbbell Floor Press', 'Resistance Band Chest Press', 'Smith Machine Flat Bench Press', 'Smith Machine Incline Bench Press', 'Smith Machine Decline Bench Press', 'Dumbbell Pullover', 'Barbell Pullover', 'Cable Pullover', 'Single-Arm Dumbbell Press', 'Single-Arm Cable Press', 'Squeeze Press', 'Hex Press'],
           'Back': ['Barbell Row', 'Dumbbell Row', 'Cable Row', 'Machine Row', 'T-Bar Row', 'Pendlay Row', 'Yates Row', 'Seated Cable Row Wide Grip', 'Seated Cable Row Close Grip', 'Seated Cable Row Neutral Grip', 'Pull-Ups Wide Grip', 'Pull-Ups Close Grip', 'Pull-Ups Neutral Grip', 'Chin-Ups', 'Lat Pulldown Wide Grip', 'Lat Pulldown Close Grip', 'Lat Pulldown Neutral Grip', 'Lat Pulldown Reverse Grip', 'Single-Arm Dumbbell Row', 'Single-Arm Cable Row', 'Barbell Deadlift', 'Dumbbell Deadlift', 'Trap Bar Deadlift', 'Romanian Deadlift Barbell', 'Romanian Deadlift Dumbbell', 'Rack Pull', 'Cable Face Pull', 'Dumbbell Face Pull', 'Straight-Arm Pulldown', 'Resistance Band Rows', 'Kettlebell Row', 'Inverted Row', 'Renegade Row', 'Good Morning Barbell', 'Good Morning Dumbbell', 'Superman Hold', 'Reverse Fly Dumbbell', 'Reverse Fly Cable', 'Reverse Fly Machine', 'Barbell Shrug', 'Dumbbell Shrug', 'Cable Shrug', 'Machine Shrug'],
@@ -41,262 +183,698 @@
           'Full Body': ['Burpees', 'Barbell Thrusters', 'Dumbbell Thrusters', 'Barbell Clean and Press', 'Dumbbell Clean and Press', 'Kettlebell Clean and Press', 'Turkish Get-ups', 'Battle Ropes', 'Sled Push', 'Sled Pull', 'Farmers Walk', 'Man Makers', 'Devil Press']
         };
 
-        const quotes = ["The only bad workout is the one that didn't happen!", "Discipline is doing what needs to be done!", "You don't have to be great to start!"];
+        const motivationalQuotes = [
+            "The only bad workout is the one that didn't happen!",
+            "Discipline is doing what needs to be done!",
+            "You don't have to be great to start, but you have to start to be great!",
+            "Success is what comes after you stop making excuses!",
+            "The pain you feel today will be the strength you feel tomorrow!",
+            "Don't wish for it, work for it!",
+            "Your body can stand almost anything. It's your mind you have to convince!",
+            "The only person you should try to be better than is the person you were yesterday!"
+        ];
 
+        // Main App Component
         function GymScheduler() {
           const [workouts, setWorkouts] = useState([]);
           const [showForm, setShowForm] = useState(false);
           const [date, setDate] = useState('');
-          const [bodyPart, setBodyPart] = useState('');
-          const [exercises, setExercises] = useState(['']);
+          const [bodyParts, setBodyParts] = useState([{ bodyPart: '', exercises: [''] }]);
           const [minDate, setMinDate] = useState('');
           const [showActuals, setShowActuals] = useState(null);
-          const [showCalendarHelp, setShowCalendarHelp] = useState(false);
 
           useEffect(() => {
+            // Set minimum date to today
             const today = new Date();
-            setMinDate(`${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`);
+            const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            setMinDate(formattedDate);
+            
+            // Load saved workouts from localStorage
+            const savedWorkouts = localStorage.getItem('gymWorkouts');
+            if (savedWorkouts) {
+              try {
+                setWorkouts(JSON.parse(savedWorkouts));
+              } catch (e) {
+                console.error('Error loading workouts:', e);
+              }
+            }
           }, []);
 
-          const formatDate = (d) => {
-            const date = new Date(d);
+          // Save workouts to localStorage whenever they change
+          useEffect(() => {
+            if (workouts.length >= 0) {
+              localStorage.setItem('gymWorkouts', JSON.stringify(workouts));
+            }
+          }, [workouts]);
+
+          const formatDate = (dateString) => {
+            const date = new Date(dateString + 'T00:00:00');
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
           };
 
-          const handleSave = () => {
-            const valid = exercises.filter(e => e.trim());
-            if (!date || !bodyPart || !valid.length) {
-              alert('Please fill all fields');
-              return;
-            }
-            setWorkouts([...workouts, { id: Date.now(), date, bodyPart, exercises: valid, actual: null }].sort((a, b) => new Date(a.date) - new Date(b.date)));
-            setDate('');
-            setBodyPart('');
-            setExercises(['']);
-            setShowForm(false);
-          };
-
           const downloadICS = (workout) => {
-            const startDate = new Date(workout.date + 'T18:00:00');
-            const endDate = new Date(workout.date + 'T19:00:00');
-            
-            const formatICSDate = (date) => {
-              return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-            };
+            try {
+              // Create date objects at 7:00 AM - 8:00 AM local time
+              const workoutDate = new Date(workout.date + 'T07:00:00');
+              const startDate = new Date(workoutDate);
+              const endDate = new Date(workoutDate);
+              endDate.setHours(8, 0, 0, 0);
+              
+              const formatICSDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+              };
 
-            let description = `PLAN:\\nExercises: ${workout.exercises.join(', ')}\\n\\n`;
-            if (workout.actual && workout.actual.went === true && workout.actual.data) {
-              description += `ACTUAL:\\n`;
-              const details = workout.actual.data.map(bp => {
-                const exercises = bp.exercises.map(ex => `${ex.exercise} - ${ex.weight}kg`).join(', ');
-                return `${bp.bodyPart}: ${exercises}`;
-              }).join('\\n');
-              description += details;
-            }
+              // Get timezone
+              const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-            const icsContent = `BEGIN:VCALENDAR
+              let description = 'PLANNED WORKOUT:\\n\\n';
+              workout.bodyParts.forEach(bp => {
+                description += `${bp.bodyPart}:\\n`;
+                bp.exercises.forEach(ex => {
+                  description += `- ${ex}\\n`;
+                });
+                description += '\\n';
+              });
+
+              if (workout.actual && workout.actual.went === true && workout.actual.data) {
+                description += 'ACTUAL WORKOUT:\\n\\n';
+                workout.actual.data.forEach(bp => {
+                  description += `${bp.bodyPart}:\\n`;
+                  bp.exercises.forEach(ex => {
+                    description += `- ${ex.exercise} (${ex.weight === 'NA' ? 'N/A' : ex.weight + 'kg'})\\n`;
+                  });
+                  description += '\\n';
+                });
+              } else if (workout.actual && workout.actual.went === false) {
+                description += 'ACTUAL WORKOUT:\\n\\nDid not attend gym on this day.';
+              }
+
+              const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Gym Scheduler//EN
+PRODID:-//Gym Scheduler App//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:${timeZone}
+END:VTIMEZONE
 BEGIN:VEVENT
-UID:${workout.id}@gym-scheduler
+UID:${workout.id}@gym-scheduler-app
 DTSTAMP:${formatICSDate(new Date())}
-DTSTART:${formatICSDate(startDate)}
-DTEND:${formatICSDate(endDate)}
-SUMMARY:${workout.bodyPart} Workout
-DESCRIPTION:${description}
+DTSTART;TZID=${timeZone}:${formatICSDate(startDate)}
+DTEND;TZID=${timeZone}:${formatICSDate(endDate)}
+SUMMARY:${workout.bodyParts.map(bp => bp.bodyPart).join(' + ')} Workout
+DESCRIPTION:${description.replace(/\n/g, '\\n')}
 STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:Workout in 1 hour
+END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
-            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+              const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+              
+              // Check if running on mobile and Web Share API is available
+              const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+              
+              if (isMobile && navigator.share) {
+                const file = new File([blob], `workout-${workout.date}.ics`, { 
+                  type: 'text/calendar' 
+                });
+                
+                navigator.share({
+                  files: [file],
+                  title: 'Gym Workout Calendar Event',
+                  text: `Add ${workout.bodyParts.map(bp => bp.bodyPart).join(' + ')} workout to your calendar`
+                }).then(() => {
+                  console.log('Shared successfully');
+                }).catch((error) => {
+                  console.log('Share cancelled or failed:', error);
+                  fallbackDownload(blob, workout.date);
+                });
+              } else {
+                fallbackDownload(blob, workout.date);
+              }
+            } catch (error) {
+              console.error('Download error:', error);
+              alert('❌ Failed to create calendar file. Please try again.');
+            }
+          };
+
+          const fallbackDownload = (blob, date) => {
+            const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${workout.bodyPart}-Workout-${workout.date}.ics`;
+            link.href = url;
+            link.download = `gym-workout-${date}.ics`;
+            link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
             
-            alert('Calendar file downloaded! Open it to add to Google Calendar, Apple Calendar, or Outlook.');
+            setTimeout(() => {
+              document.body.removeChild(link);
+              URL.revokeObjectURL(url);
+            }, 100);
           };
-return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+
+          const handleSavePlan = () => {
+            // Validate input
+            const validBodyParts = bodyParts.filter(bp => 
+              bp.bodyPart && bp.exercises.some(e => e.trim())
+            );
+
+            if (!date) {
+              alert('Please select a date');
+              return;
+            }
+
+            if (validBodyParts.length === 0) {
+              alert('Please add at least one body part with exercises');
+              return;
+            }
+
+            // Create workout object
+            const workoutData = {
+              id: Date.now(),
+              date,
+              bodyParts: validBodyParts.map(bp => ({
+                bodyPart: bp.bodyPart,
+                exercises: bp.exercises.filter(e => e.trim())
+              })),
+              actual: null
+            };
+
+            // Add to workouts and sort by date
+            const updatedWorkouts = [...workouts, workoutData].sort((a, b) => 
+              new Date(a.date) - new Date(b.date)
+            );
+            
+            setWorkouts(updatedWorkouts);
+            
+            // Reset form
+            setDate('');
+            setBodyParts([{ bodyPart: '', exercises: [''] }]);
+            setShowForm(false);
+            
+            alert('✅ Workout plan saved successfully!');
+          };
+
+          const deleteWorkout = (id) => {
+            if (confirm('Are you sure you want to delete this workout?')) {
+              setWorkouts(workouts.filter(w => w.id !== id));
+              alert('Workout deleted successfully');
+            }
+          };
+
+          // Check if form has valid data
+          const hasValidPlanData = () => {
+            if (!date) return false;
+            return bodyParts.some(bp => 
+              bp.bodyPart && bp.exercises.some(e => e.trim())
+            );
+          };
+
+          // Body Part Management
+          const addBodyPart = () => {
+            setBodyParts([...bodyParts, { bodyPart: '', exercises: [''] }]);
+          };
+
+          const removeBodyPart = (index) => {
+            if (bodyParts.length > 1) {
+              setBodyParts(bodyParts.filter((_, i) => i !== index));
+            } else {
+              alert('You must have at least one body part');
+            }
+          };
+
+          const updateBodyPart = (index, value) => {
+            const newBodyParts = [...bodyParts];
+            newBodyParts[index].bodyPart = value;
+            newBodyParts[index].exercises = [''];
+            setBodyParts(newBodyParts);
+          };
+
+          // Exercise Management
+          const addExercise = (bpIndex) => {
+            const newBodyParts = [...bodyParts];
+            newBodyParts[bpIndex].exercises.push('');
+            setBodyParts(newBodyParts);
+          };
+
+          const removeExercise = (bpIndex, exIndex) => {
+            const newBodyParts = [...bodyParts];
+            if (newBodyParts[bpIndex].exercises.length > 1) {
+              newBodyParts[bpIndex].exercises = newBodyParts[bpIndex].exercises.filter((_, i) => i !== exIndex);
+              setBodyParts(newBodyParts);
+            } else {
+              alert('You must have at least one exercise');
+            }
+          };
+
+          const updateExercise = (bpIndex, exIndex, value) => {
+            const newBodyParts = [...bodyParts];
+            newBodyParts[bpIndex].exercises[exIndex] = value;
+            setBodyParts(newBodyParts);
+          };
+
+          return (
+            <div className="min-h-screen bg-black p-4 safe-top">
               <div className="max-w-4xl mx-auto">
-                <div className="bg-slate-800 rounded-2xl p-6 mb-6 border border-slate-700">
+                {/* Header */}
+                <div className="bg-gray-900 rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
                   <div className="flex flex-col items-center gap-4">
                     <div className="flex items-center gap-3">
                       <Dumbbell />
-                      <h1 className="text-2xl md:text-3xl font-bold text-white">Gym Scheduler</h1>
+                      <h1 className="text-3xl md:text-4xl font-bold text-white">Gym Scheduler</h1>
                     </div>
-                    <div style={{height: '40px'}}></div>
-                    <div className="flex items-center gap-2">
-                      {workouts.length > 0 && (
-                        <button onClick={() => setShowCalendarHelp(true)} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs md:text-sm">
-                          <CalendarPlus />
-                          <span>Save to Calendar</span>
-                        </button>
-                      )}
-                      <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs md:text-sm">
-                        <Plus />
-                        <span>Add Workout</span>
-                      </button>
-                    </div>
+                    
+                    <button 
+                      onClick={() => setShowForm(!showForm)}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2"
+                    >
+                      <Plus />
+                      <span>Add New Workout</span>
+                    </button>
                   </div>
                 </div>
 
+                {/* Add Workout Form */}
                 {showForm && (
-                  <div className="bg-slate-800 rounded-2xl p-6 mb-6 border border-slate-700">
-                    <div className="flex justify-between items-center mb-4">
-                      <h2 className="text-xl font-bold text-white">Schedule New Workout</h2>
-                      <button onClick={() => { setShowForm(false); setDate(''); setBodyPart(''); setExercises(['']); }} className="text-slate-400 hover:text-white">
+                  <div className="bg-gray-900 rounded-2xl p-6 mb-6 border border-gray-800 shadow-xl">
+                    <div className="flex justify-between items-center mb-6">
+                      <h2 className="text-2xl font-bold text-white">Schedule New Workout</h2>
+                      <button 
+                        onClick={() => {
+                          setShowForm(false);
+                          setDate('');
+                          setBodyParts([{ bodyPart: '', exercises: [''] }]);
+                        }}
+                        className="text-gray-400 hover:text-white transition-colors"
+                      >
                         <XCircle />
                       </button>
                     </div>
-                    <div className="space-y-4">
+                    
+                    <div className="space-y-6">
+                      {/* Date Picker */}
                       <div>
-                        <label className="block text-slate-300 mb-2 text-sm font-medium">Date</label>
-                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} min={minDate} className="w-full bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2" />
+                        <label className="block text-gray-300 mb-2 text-sm font-semibold">
+                          📅 Workout Date
+                        </label>
+                        <input 
+                          type="date" 
+                          value={date} 
+                          onChange={(e) => setDate(e.target.value)} 
+                          min={minDate}
+                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
                       </div>
-                      <div>
-                        <label className="block text-slate-300 mb-2 text-sm font-medium">Body Part</label>
-                        <select value={bodyPart} onChange={(e) => { setBodyPart(e.target.value); setExercises(['']); }} className="w-full bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2">
-                          <option value="">Select...</option>
-                          {Object.keys(bodyPartExercises).map(bp => <option key={bp} value={bp}>{bp}</option>)}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-slate-300 mb-2 text-sm font-medium">Exercises</label>
-                        {exercises.map((ex, i) => (
-                          <div key={i} className="flex gap-2 mb-2">
-                            <select value={ex} onChange={(e) => { const n = [...exercises]; n[i] = e.target.value; setExercises(n); }} disabled={!bodyPart} className="flex-1 bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2 disabled:opacity-50">
-                              <option value="">Select...</option>
-                              {bodyPart && bodyPartExercises[bodyPart]?.map(e => <option key={e} value={e}>{e}</option>)}
-                            </select>
-                            {exercises.length > 1 && <button onClick={() => setExercises(exercises.filter((_, idx) => idx !== i))} className="bg-red-600 text-white px-3 rounded-lg"><Trash2 /></button>}
+
+                      {/* Body Parts */}
+                      {bodyParts.map((bp, bpIndex) => (
+                        <div key={bpIndex} className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/50">
+                          <div className="flex justify-between items-center mb-4">
+                            <label className="text-white text-lg font-semibold">
+                              💪 Body Part {bpIndex + 1}
+                            </label>
+                            {bodyParts.length > 1 && (
+                              <button 
+                                onClick={() => removeBodyPart(bpIndex)}
+                                className="text-red-400 hover:text-red-300 transition-colors"
+                              >
+                                <Trash2 />
+                              </button>
+                            )}
                           </div>
-                        ))}
-                        <button onClick={() => setExercises([...exercises, ''])} disabled={!bodyPart} className="text-blue-400 text-sm disabled:opacity-50">+ Add exercise</button>
-                      </div>
-                      <div className="flex gap-3">
-                        <button onClick={handleSave} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">Save as Plan</button>
-                        <button onClick={() => { setShowForm(false); setDate(''); setBodyPart(''); setExercises(['']); }} className="flex-1 bg-slate-700 text-white px-6 py-2 rounded-lg">Cancel</button>
-                      </div>
+                          
+                          <select 
+                            value={bp.bodyPart} 
+                            onChange={(e) => updateBodyPart(bpIndex, e.target.value)}
+                            className="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          >
+                            <option value="">Select Body Part...</option>
+                            {Object.keys(bodyPartExercises).map(bodyPart => (
+                              <option key={bodyPart} value={bodyPart}>{bodyPart}</option>
+                            ))}
+                          </select>
+
+                          {/* Exercises */}
+                          <div className="space-y-3">
+                            <label className="block text-gray-400 text-sm font-semibold">
+                              Exercises
+                            </label>
+                            {bp.exercises.map((ex, exIndex) => (
+                              <div key={exIndex} className="flex gap-2">
+                                <select 
+                                  value={ex} 
+                                  onChange={(e) => updateExercise(bpIndex, exIndex, e.target.value)}
+                                  disabled={!bp.bodyPart}
+                                  className="flex-1 bg-gray-700 text-white border border-gray-600 rounded-lg px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                >
+                                  <option value="">Select Exercise...</option>
+                                  {bp.bodyPart && bodyPartExercises[bp.bodyPart]?.map(exercise => {
+                                    const isSelected = bp.exercises.includes(exercise) && bp.exercises[exIndex] !== exercise;
+                                    return (
+                                      <option 
+                                        key={exercise} 
+                                        value={exercise}
+                                        disabled={isSelected}
+                                        style={isSelected ? { color: '#666', backgroundColor: '#333' } : {}}
+                                      >
+                                        {exercise}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                                {bp.exercises.length > 1 && (
+                                  <button 
+                                    onClick={() => removeExercise(bpIndex, exIndex)}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-3 rounded-lg transition-colors"
+                                  >
+                                    <Trash2 />
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            <button 
+                              onClick={() => addExercise(bpIndex)}
+                              disabled={!bp.bodyPart}
+                              className="text-blue-400 hover:text-blue-300 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                              + Add Exercise
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Add Body Part Button */}
+                      <button 
+                        onClick={addBodyPart}
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                      >
+                        + Add Another Body Part
+                      </button>
+
+                      {/* Action Buttons - Only show if form has valid data */}
+                      {hasValidPlanData() && (
+                        <div className="flex gap-3 pt-4 border-t border-gray-700">
+                          <button 
+                            onClick={handleSavePlan}
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                          >
+                            💾 Save Plan
+                          </button>
+                          <button 
+                            onClick={() => {
+                              setShowForm(false);
+                              setDate('');
+                              setBodyParts([{ bodyPart: '', exercises: [''] }]);
+                            }}
+                            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
 
-                <div className="space-y-4">
-                  {workouts.map(w => (
-                    <div key={w.id} className="bg-slate-800 rounded-2xl p-6 border border-slate-700">
-                      <div className="flex justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <Calendar />
-                          <span className="text-white">{formatDate(w.date)}</span>
-                          {w.actual?.went && <CheckCircle />}
-                          {w.actual?.went === false && <XCircle />}
-                        </div>
-                        <button onClick={() => setWorkouts(workouts.filter(x => x.id !== w.id))} className="text-red-400"><Trash2 /></button>
+                {/* Workouts List */}
+                <div className="space-y-4 pb-8">
+                  {workouts.length === 0 ? (
+                    <div className="bg-gray-900 rounded-2xl p-12 text-center border border-gray-800">
+                      <div className="flex justify-center mb-4">
+                        <Dumbbell />
                       </div>
-
-                      <div className="mb-4">
-                        <h3 className="text-lg font-bold text-blue-400 mb-2">Plan</h3>
-                        <div className="bg-slate-700/50 rounded-lg p-3 mb-2">
-                          <p className="text-white font-bold">{w.bodyPart}</p>
-                        </div>
-                        <ul className="space-y-1">
-                          {w.exercises.map((ex, i) => <li key={i} className="text-slate-300 text-sm">• {ex}</li>)}
-                        </ul>
-                      </div>
-
-                      <div className="border-t border-slate-700 pt-4">
-                        <h3 className="text-lg font-bold text-green-400 mb-2">Actuals</h3>
-                        {!w.actual ? (
-                          <div className="space-y-2">
-                            <button onClick={() => setShowActuals(w)} className="w-full bg-green-600 text-white px-4 py-2 rounded-lg">Record Actual</button>
-                            <button onClick={() => downloadICS(w)} className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2">
-                              <CalendarPlus />
-                              Download Calendar File
-                            </button>
-                          </div>
-                        ) : w.actual.went === false ? (
-                          <div className="space-y-2">
-                            <div className="bg-red-900/20 border border-red-700 rounded-lg p-3">
-                              <p className="text-red-300 italic text-sm">"{quotes[Math.floor(Math.random() * quotes.length)]}"</p>
+                      <h3 className="text-xl text-gray-400 mt-4">No workouts scheduled yet</h3>
+                      <p className="text-gray-500 mt-2">Click "Add New Workout" to get started!</p>
+                    </div>
+                  ) : (
+                    workouts.map(w => (
+                      <div key={w.id} className="bg-gray-900 rounded-2xl p-6 border border-gray-800 shadow-xl">
+                        {/* Workout Header */}
+                        <div className="flex justify-between items-start mb-5">
+                          <div className="flex items-center gap-3">
+                            <Calendar />
+                            <div>
+                              <span className="text-white font-semibold text-lg block">
+                                {formatDate(w.date)}
+                              </span>
+                              <span className="text-gray-500 text-xs">
+                                7:00 AM - 8:00 AM
+                              </span>
                             </div>
-                            <button onClick={() => downloadICS(w)} className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2">
-                              <CalendarPlus />
-                              Download Calendar File
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {w.actual?.went === true && <CheckCircle />}
+                            {w.actual?.went === false && <XCircle />}
+                            <button 
+                              onClick={() => deleteWorkout(w.id)}
+                              className="text-red-400 hover:text-red-300 transition-colors"
+                            >
+                              <Trash2 />
                             </button>
                           </div>
-                        ) : (
-                          <div className="space-y-2">
-                            {w.actual.data?.map((bp, i) => (
-                              <div key={i} className="bg-slate-700/50 rounded-lg p-3">
-                                <p className="text-white font-bold text-sm mb-1">{bp.bodyPart}</p>
-                                {bp.exercises.map((ex, j) => <p key={j} className="text-slate-300 text-xs">{ex.exercise} - <span className="text-green-400 font-semibold">{ex.weight} kg</span></p>)}
+                        </div>
+
+                        {/* Planned Workout */}
+                        <div className="mb-5">
+                          <h3 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                            📋 Planned Workout
+                          </h3>
+                          <div className="space-y-3">
+                            {w.bodyParts.map((bp, i) => (
+                              <div key={i} className="bg-gray-800/70 rounded-lg p-4 border border-gray-700">
+                                <p className="text-white font-bold mb-2 text-lg">
+                                  💪 {bp.bodyPart}
+                                </p>
+                                <ul className="space-y-1 pl-4">
+                                  {bp.exercises.map((ex, j) => (
+                                    <li key={j} className="text-gray-300 text-sm">
+                                      • {ex}
+                                    </li>
+                                  ))}
+                                </ul>
                               </div>
                             ))}
-                            <button onClick={() => downloadICS(w)} className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 mt-2">
-                              <CalendarPlus />
-                              Download Calendar File
-                            </button>
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        </div>
 
-                {showActuals && <ActualsModal workout={showActuals} onClose={() => setShowActuals(null)} onSave={(went, data) => { setWorkouts(workouts.map(w => w.id === showActuals.id ? { ...w, actual: { went, data } } : w)); setShowActuals(null); }} />}
-                
-                {showCalendarHelp && (
-                  <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-                    <div className="bg-slate-800 rounded-2xl p-6 max-w-md w-full border border-slate-700">
-                      <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Save to Calendar</h2>
-                        <button onClick={() => setShowCalendarHelp(false)} className="text-slate-400 hover:text-white">
-                          <XCircle />
-                        </button>
-                      </div>
-                      <div className="space-y-4 text-slate-300">
-                        <p>To add workouts to your calendar:</p>
-                        <ol className="list-decimal list-inside space-y-2 text-sm">
-                          <li>Click "Download Calendar File" on any workout</li>
-                          <li>A .ics file will be downloaded</li>
-                          <li>Open the file to add to your calendar app</li>
-                          <li>Works with Google Calendar, Apple Calendar, Outlook, etc.</li>
-                        </ol>
-                        <div className="bg-purple-900/20 border border-purple-600 rounded-lg p-3">
-                          <p className="text-purple-200 text-sm">💡 <strong>Tip:</strong> The file includes both your planned and actual workout data!</p>
+                        {/* Actual Workout */}
+                        <div className="border-t border-gray-800 pt-5">
+                          <h3 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
+                            ✅ Actual Workout
+                          </h3>
+                          
+                          {!w.actual ? (
+                            <div className="space-y-3">
+                              <button 
+                                onClick={() => setShowActuals(w)}
+                                className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                              >
+                                📝 Record Actuals
+                              </button>
+                            </div>
+                          ) : w.actual.went === false ? (
+                            <div className="space-y-3">
+                              <div className="bg-red-900/20 border-2 border-red-700 rounded-lg p-4">
+                                <p className="text-red-300 italic text-center">
+                                  "{motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]}"
+                                </p>
+                              </div>
+                              <button 
+                                onClick={() => downloadICS(w)}
+                                className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
+                              >
+                                <Download />
+                                Download Calendar File
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              <div className="space-y-3">
+                                {w.actual.data?.map((bp, i) => (
+                                  <div key={i} className="bg-green-900/20 border border-green-700 rounded-lg p-4">
+                                    <p className="text-white font-bold mb-2">
+                                      💪 {bp.bodyPart}
+                                    </p>
+                                    <div className="space-y-1 pl-4">
+                                      {bp.exercises.map((ex, j) => (
+                                        <p key={j} className="text-gray-300 text-sm">
+                                          • {ex.exercise} - <span className="text-green-400 font-semibold">{ex.weight === 'NA' ? 'N/A' : ex.weight + ' kg'}</span>
+                                        </p>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                              <button 
+                                onClick={() => downloadICS(w)}
+                                className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
+                              >
+                                <Download />
+                                Download Calendar File (Plan + Actuals)
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
-                      <div className="flex gap-3 mt-4">
-                        <button onClick={() => setShowCalendarHelp(false)} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">Got it!</button>
-                        <button onClick={() => setShowCalendarHelp(false)} className="flex-1 bg-slate-700 hover:bg-slate-600 text-white px-6 py-2 rounded-lg">Cancel</button>
-                      </div>
-                    </div>
-                  </div>
+                    ))
+                  )}
+                </div>
+
+                {/* Actuals Modal */}
+                {showActuals && (
+                  <ActualsModal 
+                    workout={showActuals} 
+                    onClose={() => setShowActuals(null)} 
+                    onSave={(went, data) => {
+                      const updatedWorkouts = workouts.map(w => 
+                        w.id === showActuals.id 
+                          ? { ...w, actual: { went, data } } 
+                          : w
+                      );
+                      setWorkouts(updatedWorkouts);
+                      
+                      // Download consolidated ICS file with plan + actuals
+                      const updatedWorkout = updatedWorkouts.find(w => w.id === showActuals.id);
+                      if (updatedWorkout) {
+                        downloadICS(updatedWorkout);
+                      }
+                      
+                      setShowActuals(null);
+                    }} 
+                  />
                 )}
               </div>
             </div>
           );
         }
 
+        // Actuals Modal Component
         function ActualsModal({ workout, onClose, onSave }) {
           const [went, setWent] = useState('');
-          const [bps, setBps] = useState([{ bodyPart: '', exercises: [{ exercise: '', weight: '' }] }]);
+          const [bps, setBps] = useState([{ bodyPart: '', exercises: [{ exercise: '', weight: '', isNA: false }] }]);
 
           const copyFromPlan = () => {
-            setBps([{
-              bodyPart: workout.bodyPart,
-              exercises: workout.exercises.map(ex => ({ exercise: ex, weight: '' }))
-            }]);
-            alert('Plan copied! Now fill in the weights.');
+            const copiedBps = workout.bodyParts.map(bp => ({
+              bodyPart: bp.bodyPart,
+              exercises: bp.exercises.map(ex => ({ exercise: ex, weight: '', isNA: false }))
+            }));
+            setBps(copiedBps);
+            alert('✅ Plan copied! Now fill in the weights or mark as N/A.');
           };
 
-          const formatDate = (d) => {
-            const date = new Date(d);
+          const addBodyPart = () => {
+            setBps([...bps, { bodyPart: '', exercises: [{ exercise: '', weight: '', isNA: false }] }]);
+          };
+
+          const removeBodyPart = (index) => {
+            if (bps.length > 1) {
+              setBps(bps.filter((_, i) => i !== index));
+            }
+          };
+
+          const addExercise = (bpIndex) => {
+            const newBps = [...bps];
+            newBps[bpIndex].exercises.push({ exercise: '', weight: '', isNA: false });
+            setBps(newBps);
+          };
+
+          const removeExercise = (bpIndex, exIndex) => {
+            const newBps = [...bps];
+            if (newBps[bpIndex].exercises.length > 1) {
+              newBps[bpIndex].exercises = newBps[bpIndex].exercises.filter((_, i) => i !== exIndex);
+              setBps(newBps);
+            }
+          };
+
+          const updateBodyPart = (index, value) => {
+            const newBps = [...bps];
+            newBps[index].bodyPart = value;
+            newBps[index].exercises = [{ exercise: '', weight: '', isNA: false }];
+            setBps(newBps);
+          };
+
+          const updateExercise = (bpIndex, exIndex, field, value) => {
+            const newBps = [...bps];
+            if (field === 'isNA') {
+              newBps[bpIndex].exercises[exIndex].isNA = value;
+              if (value) {
+                newBps[bpIndex].exercises[exIndex].weight = '';
+              }
+            } else {
+              newBps[bpIndex].exercises[exIndex][field] = value;
+            }
+            setBps(newBps);
+          };
+
+          // Get all selected exercises for a body part to grey out duplicates
+          const getSelectedExercises = (bpIndex) => {
+            return bps[bpIndex].exercises.map(ex => ex.exercise).filter(e => e);
+          };
+
+          const handleDownloadCalendar = () => {
+            if (!went) {
+              alert('Please select if you went to the gym');
+              return;
+            }
+
+            if (went === 'no') {
+              onSave(false, null);
+              return;
+            }
+
+            // Validate that all exercises have either weight or NA
+            let hasInvalidExercise = false;
+            let invalidExercises = [];
+
+            bps.forEach(bp => {
+              bp.exercises.forEach(ex => {
+                if (ex.exercise && !ex.weight && !ex.isNA) {
+                  hasInvalidExercise = true;
+                  invalidExercises.push(ex.exercise);
+                }
+              });
+            });
+
+            if (hasInvalidExercise) {
+              alert(`❌ Error: Please enter weight (kg) or mark as N/A for all exercises.\n\nMissing weight/N/A for:\n${invalidExercises.join('\n')}`);
+              return;
+            }
+
+            const validData = bps
+              .filter(b => b.bodyPart && b.exercises.some(e => e.exercise && (e.weight || e.isNA)))
+              .map(b => ({
+                bodyPart: b.bodyPart,
+                exercises: b.exercises
+                  .filter(e => e.exercise && (e.weight || e.isNA))
+                  .map(e => ({
+                    exercise: e.exercise,
+                    weight: e.isNA ? 'NA' : e.weight
+                  }))
+              }));
+
+            if (validData.length === 0) {
+              alert('Please add at least one exercise with weight or N/A');
+              return;
+            }
+
+            onSave(true, validData);
+          };
+
+          const formatDate = (dateString) => {
+            const date = new Date(dateString + 'T00:00:00');
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             return {
@@ -307,84 +885,202 @@ return (
 
           const { day, date } = formatDate(workout.date);
 
-return (
-            <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 overflow-y-auto">
-              <div className="bg-slate-800 rounded-2xl p-6 max-w-2xl w-full my-8 border border-slate-700">
-                <div className="flex justify-between items-center mb-4">
+          return (
+            <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 overflow-y-auto">
+              <div className="bg-gray-900 rounded-2xl p-6 max-w-2xl w-full my-8 border border-gray-800 shadow-2xl max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-6 sticky top-0 bg-gray-900 pb-4 border-b border-gray-800 z-10">
                   <h2 className="text-2xl font-bold text-white">Record Actual Workout</h2>
-                  <button onClick={onClose} className="text-slate-400 hover:text-white">
+                  <button 
+                    onClick={onClose}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
                     <XCircle />
                   </button>
                 </div>
                 
-                <div className="mb-4 p-4 bg-slate-700/50 rounded-lg">
-                  <p className="text-slate-400 text-sm">Date</p>
-                  <p className="text-white font-semibold">{day}, {date}</p>
+                {/* Date Display */}
+                <div className="mb-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+                  <p className="text-gray-400 text-sm mb-1">Workout Date</p>
+                  <p className="text-white font-semibold text-lg">{day}, {date}</p>
+                  <p className="text-gray-500 text-xs mt-1">7:00 AM - 8:00 AM</p>
                 </div>
 
-                <div className="mb-4">
-                  <label className="block text-slate-300 mb-2 text-sm font-medium">Went to gym?</label>
-                  <select value={went} onChange={(e) => setWent(e.target.value)} className="w-full bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2">
+                {/* Went to Gym */}
+                <div className="mb-6">
+                  <label className="block text-gray-300 mb-3 text-sm font-semibold">
+                    Did you go to the gym?
+                  </label>
+                  <select 
+                    value={went} 
+                    onChange={(e) => setWent(e.target.value)}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
                     <option value="">Select...</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="yes">✅ Yes, I went</option>
+                    <option value="no">❌ No, I didn't go</option>
                   </select>
                 </div>
 
+                {/* Copy from Plan Button */}
                 {went === 'yes' && (
-                  <div className="bg-purple-900/30 border-2 border-purple-500 rounded-xl p-4 mb-4">
-                    <button onClick={copyFromPlan} className="w-full bg-purple-600 text-white px-6 py-4 rounded-lg font-bold text-lg">
-                      📋 Same as Plan
+                  <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 border-2 border-purple-500 rounded-xl p-5 mb-6">
+                    <button 
+                      onClick={copyFromPlan}
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-4 rounded-lg font-bold text-lg transition-colors"
+                    >
+                      📋 Same as Planned
                     </button>
-                    <p className="text-purple-200 text-sm mt-3 text-center">Click to copy exercises from plan!</p>
+                    <p className="text-purple-200 text-sm mt-3 text-center">
+                      Click to auto-fill exercises from your plan!
+                    </p>
                   </div>
                 )}
 
+                {/* Actual Exercises */}
                 {went === 'yes' && (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {bps.map((bp, bpI) => (
-                      <div key={bpI} className="border border-slate-600 rounded-lg p-4">
-                        <select value={bp.bodyPart} onChange={(e) => { const n = [...bps]; n[bpI].bodyPart = e.target.value; n[bpI].exercises = [{ exercise: '', weight: '' }]; setBps(n); }} className="w-full bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2 mb-3">
-                          <option value="">Body Part...</option>
-                          {Object.keys(bodyPartExercises).map(b => <option key={b} value={b}>{b}</option>)}
+                      <div key={bpI} className="border-2 border-gray-700 rounded-xl p-5 bg-gray-800/50">
+                        <div className="flex justify-between items-center mb-4">
+                          <label className="text-white text-lg font-semibold">
+                            💪 Body Part {bpI + 1}
+                          </label>
+                          {bps.length > 1 && (
+                            <button 
+                              onClick={() => removeBodyPart(bpI)}
+                              className="text-red-400 hover:text-red-300 transition-colors"
+                            >
+                              <Trash2 />
+                            </button>
+                          )}
+                        </div>
+                        
+                        <select 
+                          value={bp.bodyPart} 
+                          onChange={(e) => updateBodyPart(bpI, e.target.value)}
+                          className="w-full bg-gray-700 text-white border border-gray-600 rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="">Select Body Part...</option>
+                          {Object.keys(bodyPartExercises).map(b => (
+                            <option key={b} value={b}>{b}</option>
+                          ))}
                         </select>
-                        {bp.exercises.map((ex, exI) => (
-                          <div key={exI} className="flex gap-2 mb-2">
-                            <select value={ex.exercise} onChange={(e) => { const n = [...bps]; n[bpI].exercises[exI].exercise = e.target.value; setBps(n); }} disabled={!bp.bodyPart} className="flex-1 bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2 disabled:opacity-50">
-                              <option value="">Exercise...</option>
-                              {bp.bodyPart && bodyPartExercises[bp.bodyPart]?.map(e => <option key={e} value={e}>{e}</option>)}
-                            </select>
-                            <input type="number" placeholder="kg" value={ex.weight} onChange={(e) => { const n = [...bps]; n[bpI].exercises[exI].weight = e.target.value; setBps(n); }} className="w-24 bg-slate-700 text-white border border-slate-600 rounded-lg px-4 py-2" />
-                          </div>
-                        ))}
-                        <button onClick={() => { const n = [...bps]; n[bpI].exercises.push({ exercise: '', weight: '' }); setBps(n); }} disabled={!bp.bodyPart} className="text-blue-400 text-sm disabled:opacity-50">+ Add Exercise</button>
+
+                        <div className="space-y-3">
+                          {bp.exercises.map((ex, exI) => {
+                            const selectedExercises = getSelectedExercises(bpI);
+                            return (
+                              <div key={exI} className="space-y-2">
+                                <div className="flex gap-2">
+                                  <select 
+                                    value={ex.exercise} 
+                                    onChange={(e) => updateExercise(bpI, exI, 'exercise', e.target.value)}
+                                    disabled={!bp.bodyPart}
+                                    className="flex-1 bg-gray-700 text-white border border-gray-600 rounded-lg px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                  >
+                                    <option value="">Select Exercise...</option>
+                                    {bp.bodyPart && bodyPartExercises[bp.bodyPart]?.map(exercise => {
+                                      const isSelected = selectedExercises.includes(exercise) && ex.exercise !== exercise;
+                                      return (
+                                        <option 
+                                          key={exercise} 
+                                          value={exercise}
+                                          disabled={isSelected}
+                                          style={isSelected ? { color: '#666', backgroundColor: '#333' } : {}}
+                                        >
+                                          {exercise}
+                                        </option>
+                                      );
+                                    })}
+                                  </select>
+                                  {bp.exercises.length > 1 && (
+                                    <button 
+                                      onClick={() => removeExercise(bpI, exI)}
+                                      className="bg-red-600 hover:bg-red-700 text-white px-3 rounded-lg transition-colors"
+                                    >
+                                      <Trash2 />
+                                    </button>
+                                  )}
+                                </div>
+                                
+                                {/* Weight or NA input */}
+                                <div className="flex gap-2 items-center pl-4">
+                                  <input 
+                                    type="number" 
+                                    placeholder="Weight (kg)" 
+                                    value={ex.weight} 
+                                    onChange={(e) => updateExercise(bpI, exI, 'weight', e.target.value)}
+                                    disabled={ex.isNA}
+                                    className="flex-1 bg-gray-700 text-white border border-gray-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                                    min="0"
+                                    step="0.5"
+                                  />
+                                  <label className="flex items-center gap-2 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-600 transition-colors">
+                                    <input 
+                                      type="checkbox"
+                                      checked={ex.isNA}
+                                      onChange={(e) => updateExercise(bpI, exI, 'isNA', e.target.checked)}
+                                      className="w-4 h-4 accent-blue-600"
+                                    />
+                                    <span className="text-white text-sm font-medium">N/A</span>
+                                  </label>
+                                </div>
+                              </div>
+                            );
+                          })}
+                          <button 
+                            onClick={() => addExercise(bpI)}
+                            disabled={!bp.bodyPart}
+                            className="text-blue-400 hover:text-blue-300 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          >
+                            + Add Exercise
+                          </button>
+                        </div>
                       </div>
                     ))}
-                    <button onClick={() => setBps([...bps, { bodyPart: '', exercises: [{ exercise: '', weight: '' }] }])} className="text-green-400 text-sm">+ Add Body Part</button>
+                    
+                    <button 
+                      onClick={addBodyPart}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                      + Add Another Body Part
+                    </button>
                   </div>
                 )}
 
+                {/* Motivational Quote for No */}
                 {went === 'no' && (
-                  <div className="bg-red-900/20 border border-red-700 rounded-lg p-4 mb-4">
-                    <p className="text-red-300 italic text-sm">"{quotes[Math.floor(Math.random() * quotes.length)]}"</p>
+                  <div className="bg-red-900/20 border-2 border-red-700 rounded-lg p-6 mb-6">
+                    <p className="text-red-300 italic text-center text-lg">
+                      "{motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]}"
+                    </p>
                   </div>
                 )}
 
-                <div className="flex gap-3 mt-6">
-                  <button onClick={() => {
-                    if (!went) { alert('Please select if you went to gym'); return; }
-                    if (went === 'no') { onSave(false, null); return; }
-                    const validData = bps.filter(b => b.bodyPart && b.exercises.some(e => e.exercise && e.weight)).map(b => ({ bodyPart: b.bodyPart, exercises: b.exercises.filter(e => e.exercise && e.weight) }));
-                    if (validData.length === 0) { alert('Please add at least one exercise with weight'); return; }
-                    onSave(true, validData);
-                  }} className="flex-1 bg-green-600 text-white px-6 py-2 rounded-lg">Save Actual</button>
-                  <button onClick={onClose} className="flex-1 bg-slate-700 text-white px-6 py-2 rounded-lg">Cancel</button>
-                </div>
+                {/* Download Calendar Button */}
+                {went && (
+                  <div className="flex gap-3 mt-6 pt-6 border-t border-gray-800 sticky bottom-0 bg-gray-900">
+                    <button 
+                      onClick={handleDownloadCalendar}
+                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                    >
+                      <Download />
+                      Download Calendar File (Plan + Actuals)
+                    </button>
+                    <button 
+                      onClick={onClose}
+                      className="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           );
         }
 
+        // Render App
         ReactDOM.render(<GymScheduler />, document.getElementById('root'));
     </script>
 </body>
